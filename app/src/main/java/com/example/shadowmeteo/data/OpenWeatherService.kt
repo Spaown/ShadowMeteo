@@ -1,5 +1,6 @@
 package com.example.shadowmeteo.data
 
+import com.example.shadowmeteo.model.WeatherInfo
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -12,5 +13,5 @@ interface OpenWeatherService {
     }
 
     @GET("data/$API_VERSION/weather?appid=$API_KEY")
-    fun getCurrentWeather(@Query("lat") lat: Double, @Query("lon") lng: Double): Observable<Any>
+    fun getCurrentWeather(@Query("lat") lat: Double, @Query("lon") lng: Double): Observable<WeatherInfo>
 }

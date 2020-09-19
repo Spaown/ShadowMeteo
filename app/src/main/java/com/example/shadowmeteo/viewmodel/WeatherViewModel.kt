@@ -18,9 +18,9 @@ class WeatherViewModel: ViewModel() {
     fun setCurrentLocation(location: Location) {
         weatherProvider.getCurrentWeather(location)
             .subscribeOn(Schedulers.io())
-            .subscribeBy(onNext = {
-            },
-            onError = {
-            })
+            .subscribeBy(
+                onNext = { weatherInfo.postValue(it) },
+                onError = {}
+            )
     }
 }
