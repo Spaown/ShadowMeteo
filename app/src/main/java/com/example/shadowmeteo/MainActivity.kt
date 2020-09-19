@@ -4,13 +4,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.shadowmeteo.viewmodel.WeatherViewModel
-import com.google.android.gms.location.LocationServices
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -50,10 +50,14 @@ class MainActivity: AppCompatActivity() {
     @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     private fun requestLastKnownLocation(): Single<Location> {
         return Single.create { emitter ->
-            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { emitter.onSuccess(it) }
-                .addOnFailureListener { emitter.onError(it) }
+            val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+            val providers = locationManager.getProviders(true)
+
+            providers.mapNotNull { locationManager.getLastKnownLocation(it) }.lastOrNull()?.let {
+                emitter.onSuccess(it)
+            } ?: run {
+                emitter.onError(Throwable("requestLastKnownLocation: Can't find last location"))
+            }
         }
     }
 }

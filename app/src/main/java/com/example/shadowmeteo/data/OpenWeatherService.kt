@@ -1,8 +1,8 @@
 package com.example.shadowmeteo.data
 
-import io.reactivex.rxjava3.core.Observable
+import io.reactivex.Observable
 import retrofit2.http.GET
-import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface OpenWeatherService {
 
@@ -11,6 +11,6 @@ interface OpenWeatherService {
         const val API_VERSION = 2.5
     }
 
-    @GET("data/$API_VERSION/weather?lat={lat}&lon={lon}&appid=$API_KEY")
-    fun getCurrentWeather(@Path("lat") lat: Double, @Path("lng") lng: Double): Observable<Any>
+    @GET("data/$API_VERSION/weather?appid=$API_KEY")
+    fun getCurrentWeather(@Query("lat") lat: Double, @Query("lon") lng: Double): Observable<Any>
 }
