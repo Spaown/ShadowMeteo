@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.shadowmeteo.R
 import com.example.shadowmeteo.model.WeatherInfo
 import com.example.shadowmeteo.utils.WeatherUtils
@@ -17,14 +18,26 @@ import kotlinx.android.synthetic.main.fragment_today.*
 import kotlin.math.roundToInt
 
 class TodayFragment: Fragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_today, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        today_week_button.setOnClickListener {
+            val action = TodayFragmentDirections.actionTodayFragmentToWeekFragment()
+            findNavController().navigate(action)
+        }
+
         val viewModel = ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java)
-        viewModel.weatherInfo.observe(viewLifecycleOwner, Observer { weatherInfo ->
+        viewModel.location.observe(viewLifecycleOwner, Observer { location ->
+            if (location != null && viewModel.todayWeather.value == null) {
+                viewModel.initTodayWeather()
+            }
+        })
+        viewModel.todayWeather.observe(viewLifecycleOwner, Observer { weatherInfo ->
             weatherInfo?.let { bindWeatherInfo(it) }
         })
     }

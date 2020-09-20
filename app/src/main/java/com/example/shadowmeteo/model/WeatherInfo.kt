@@ -28,3 +28,21 @@ data class WeatherData(
     @SerializedName("humidity")
     val humidityPercent: Double?
 )
+
+data class WeatherOneCallInfo(
+    @SerializedName("daily")
+    val daily: List<WeatherDailyInfo>
+)
+
+data class WeatherDailyInfo(
+    @SerializedName("weather")
+    val weather: List<Weather>?,
+
+    @SerializedName("temp")
+    val temperature: WeatherDetailedTemperature?
+)
+
+data class WeatherDetailedTemperature(
+    @SerializedName("day")
+    val tempInKelvin: Double?
+)

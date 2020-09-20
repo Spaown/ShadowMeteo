@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ShadowMeteo</string>
+    <string name="planning_something_this_week">Planning something this week?</string>
 </resources>
