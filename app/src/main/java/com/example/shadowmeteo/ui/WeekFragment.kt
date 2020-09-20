@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shadowmeteo.R
 import com.example.shadowmeteo.model.WeatherDailyInfo
-import com.example.shadowmeteo.model.WeatherInfo
 import com.example.shadowmeteo.viewmodel.WeatherViewModel
 import kotlinx.android.synthetic.main.fragment_week.*
 
