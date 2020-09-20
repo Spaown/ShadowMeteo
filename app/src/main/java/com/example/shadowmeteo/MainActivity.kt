@@ -76,11 +76,4 @@ class MainActivity: AppCompatActivity() {
             }
         }
     }
-
-    fun openAppPermission() {
-        startActivity(Intent().apply {
-            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", packageName, null)
-        })
-    }
 }

@@ -1,6 +1,9 @@
 package com.example.shadowmeteo.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,9 +26,13 @@ class ErrorFragment: Fragment() {
         ViewModelProvider(requireActivity()).get(WeatherViewModel::class.java).currentErrors.observe(viewLifecycleOwner, Observer { errors ->
             if (errors.isNullOrEmpty()) {
                 view.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.transparent))
+                error_label.isClickable = false
             } else {
                 view.setBackgroundColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
-                error_label.text = getErrorTextFor(errors.first())
+                val error = errors.first()
+                error_label.text = getErrorTextFor(error)
+                error_label.isClickable = true
+                error_label.setOnClickListener { onClickError(error) }
             }
         })
     }
@@ -35,5 +42,21 @@ class ErrorFragment: Fragment() {
             WeatherViewModel.AppError.MISSING_PERMISSIONS -> getString(R.string.you_need_to_accept_permissions)
             WeatherViewModel.AppError.PROVIDER_ERROR -> getString(R.string.service_down)
         }
+    }
+
+    private fun onClickError(error: WeatherViewModel.AppError) {
+        when (error) {
+            WeatherViewModel.AppError.MISSING_PERMISSIONS -> {
+                openAppPermission()
+            }
+            else -> {}
+        }
+    }
+
+    private fun openAppPermission() {
+        startActivity(Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", requireActivity().packageName, null)
+        })
     }
 }
