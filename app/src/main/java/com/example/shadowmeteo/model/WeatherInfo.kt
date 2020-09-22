@@ -1,6 +1,7 @@
 package com.example.shadowmeteo.model
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class WeatherInfo(
     @SerializedName("name")
@@ -43,6 +44,6 @@ data class WeatherDailyInfo(
 )
 
 data class WeatherDetailedTemperature(
-    @SerializedName("day")
+    @SerializedName("max")
     val tempInKelvin: Double?
 )

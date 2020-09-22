@@ -36,7 +36,7 @@ class WeekFragment: Fragment() {
 
     private fun bindWeatherList(weatherList: List<WeatherDailyInfo>) {
         weekly_loading.visibility = View.GONE
-        weekly_list.layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.HORIZONTAL, false)
+        weekly_list.layoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
         weekly_list.adapter = WeekAdapter(weatherList)
     }
 }
